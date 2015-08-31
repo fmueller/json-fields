@@ -1,0 +1,11 @@
+!.gitignore
+.*
+target
+*.iml
+*.iws
+
+!*/.gitignore
+*/.*
+*/target
+*/*.iml
+*/*.iws

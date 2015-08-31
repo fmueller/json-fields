@@ -1,0 +1,12 @@
+package org.zalando.guild.api.json.fields.grammar;
+
+import java.io.File;
+
+/**
+ * @author  Sean Patrick Floyd (sean.floyd@zalando.de)
+ * @since   26.08.2015
+ */
+public class Constants {
+    public static final File GRAMMAR_FILE = new File("src/main/antlr4/JsonFields.g4");
+    public static final String TOP_LEVEL_RULE = "json_fields";
+}
