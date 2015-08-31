@@ -15,5 +15,11 @@
     </properties>
     <packaging>pom</packaging>
 
+    <scm>
+        <connection>scm:git:ssh://git@stash.zalando.net:7999/shop-platform/json-fields.git</connection>
+        <url>scm:git:ssh://git@stash.zalando.net:7999/shop-platform/json-fields.git</url>
+        <tag>HEAD</tag>
+    </scm>
+
 
 </project>

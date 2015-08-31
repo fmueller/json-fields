@@ -89,9 +89,14 @@
             <version>${antlr4.version}</version>
             <scope>test</scope>
         </dependency>
-
-
     </dependencies>
+    <contributors>
+        <contributor>
+            <name>Sean Patrick Floyd</name>
+            <email>sean.floyd@zalando.de</email>
+            <organization>Zalando SE - API Guild</organization>
+        </contributor>
+    </contributors>
 
 
 </project>
