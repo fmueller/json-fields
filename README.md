@@ -12,3 +12,7 @@ properties "field2.subfield3", "field2.subfield4", and all fields from "field1" 
 
 The "grammar" sub-project contains the underlying [ANTLR4](http://www.antlr.org/) grammar, other projects may provide
  implementations of the grammar for different languages and environments.
+
+You can find the grammar at [grammar/src/main/antlr4/JsonFields.g4](grammar/src/main/antlr4/JsonFields.g4)
+Also check out this Unit Test Class for valid field expressions according to this grammar:
+[JsonFieldsGrammarSyntaxTest.java](grammar/src/test/java/org/zalando/guild/api/json/fields/grammar/JsonFieldsGrammarSyntaxTest.java)
