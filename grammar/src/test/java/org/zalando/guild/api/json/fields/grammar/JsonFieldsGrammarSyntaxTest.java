@@ -31,6 +31,64 @@ import org.zalando.guild.api.json.fields.grammar.parser.JsonFieldsParser;
  */
 public class JsonFieldsGrammarSyntaxTest {
 
+    @Test
+    public void simpleField() {
+        assertThat("(foo)", is(aValidFieldsExpression()));
+        assertThat("   (    foo    )   ", is(aValidFieldsExpression()));
+        assertThat("(foo    )   ", is(aValidFieldsExpression()));
+        assertThat("(  foo)", is(aValidFieldsExpression()));
+        assertThat("foo", is(not(aValidFieldsExpression())));
+    }
+
+    @Test
+    public void numerics() {
+        assertThat("(foo123)", is(aValidFieldsExpression()));
+        assertThat("   (    foo,bar123    )   ", is(aValidFieldsExpression()));
+        assertThat("(f0o,b4r)", is(aValidFieldsExpression()));
+    }
+
+    @Test
+    public void uppercase() {
+        assertThat("(FOO)", is(aValidFieldsExpression()));
+        assertThat("   (    fOo, bar, BAZ    )   ", is(aValidFieldsExpression()));
+    }
+
+    @Test
+    public void dashesAndUnderscores() {
+        assertThat("(foo-bar)", is(aValidFieldsExpression()));
+        assertThat("(foo_bar)   ", is(aValidFieldsExpression()));
+        assertThat("(foo_)   ", is(not(aValidFieldsExpression())));
+        assertThat("(foo__bar)   ", is(not(aValidFieldsExpression())));
+        assertThat("(_foo)   ", is(not(aValidFieldsExpression())));
+        assertThat("(foo_-bar)   ", is(not(aValidFieldsExpression())));
+    }
+
+    @Test
+    public void negation() {
+        assertThat("!(foo)", is(aValidFieldsExpression()));
+        assertThat("!foo", is(not(aValidFieldsExpression())));
+        assertThat("!(foo, bar)", (is(aValidFieldsExpression())));
+    }
+
+    @Test
+    public void qualifier() {
+        assertThat("(foo(bar))", is(aValidFieldsExpression()));
+        assertThat("(foo!(bar))", is(aValidFieldsExpression()));
+        assertThat("foo(bar)", is(not(aValidFieldsExpression())));
+        assertThat("(foo(bar(baz)))", is(aValidFieldsExpression()));
+        assertThat("(foo!(bar(baz)))", is(aValidFieldsExpression()));
+        assertThat("!(foo(bar(baz)))", is(aValidFieldsExpression()));
+        assertThat("!(foo!(bar!(baz)))", is(aValidFieldsExpression()));
+    }
+
+    @Test
+    public void syntaxError() {
+
+        assertThat("", is(not(aValidFieldsExpression())));
+        assertThat("foo, bar", is(not(aValidFieldsExpression())));
+        assertThat("<<<foo", is(not(aValidFieldsExpression())));
+    }
+
     static Matcher<String> aValidFieldsExpression() {
         return new TypeSafeDiagnosingMatcher<String>() {
             @Override
@@ -72,57 +130,5 @@ public class JsonFieldsGrammarSyntaxTest {
                 description.appendText("a valid field expression");
             }
         };
-    }
-
-    @Test
-    public void simpleField() {
-        assertThat("(foo)", is(aValidFieldsExpression()));
-        assertThat("   (    foo    )   ", is(aValidFieldsExpression()));
-        assertThat("(foo,bar)", is(aValidFieldsExpression()));
-        assertThat("(foo, bar)", is(aValidFieldsExpression()));
-    }
-
-    @Test
-    public void numerics() {
-        assertThat("(foo123)", is(aValidFieldsExpression()));
-        assertThat("   (    foo,bar123    )   ", is(aValidFieldsExpression()));
-        assertThat("(f0o,b4r)", is(aValidFieldsExpression()));
-    }
-
-    @Test
-    public void uppercase() {
-        assertThat("(FOO)", is(aValidFieldsExpression()));
-        assertThat("   (    fOo, bar, BAZ    )   ", is(aValidFieldsExpression()));
-        assertThat("(  )", is(not(aValidFieldsExpression())));
-    }
-
-    @Test
-    public void negation() {
-        assertThat("!(foo)", is(aValidFieldsExpression()));
-        assertThat("!foo", is(not(aValidFieldsExpression())));
-        assertThat("!(foo, bar)", (is(aValidFieldsExpression())));
-    }
-
-    @Test
-    public void qualifier() {
-        assertThat("(foo(bar))", is(aValidFieldsExpression()));
-        assertThat("(foo!(bar))", is(aValidFieldsExpression()));
-        assertThat("foo(bar)", is(not(aValidFieldsExpression())));
-    }
-
-    @Test
-    public void complexExpressions() {
-        assertThat("(foo(bar(baz)))", is(aValidFieldsExpression()));
-        assertThat("(foo!(bar(baz)))", is(aValidFieldsExpression()));
-        assertThat("!(foo(bar(baz)))", is(aValidFieldsExpression()));
-        assertThat("!(foo!(bar!(baz)))", is(aValidFieldsExpression()));
-    }
-
-    @Test
-    public void syntaxError() {
-
-        assertThat("", is(not(aValidFieldsExpression())));
-        assertThat("foo, bar", is(not(aValidFieldsExpression())));
-        assertThat("<<<foo", is(not(aValidFieldsExpression())));
     }
 }
