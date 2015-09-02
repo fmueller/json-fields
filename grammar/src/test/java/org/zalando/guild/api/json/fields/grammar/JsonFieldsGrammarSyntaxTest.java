@@ -92,31 +92,13 @@ public class JsonFieldsGrammarSyntaxTest {
     static Matcher<String> aValidFieldsExpression() {
         return new TypeSafeDiagnosingMatcher<String>() {
             @Override
-            protected boolean matchesSafely(final String fieldsExpression, final Description mismatchDescription) {
+            protected boolean matchesSafely(final String expression, final Description mismatchDescription) {
                 try {
 
-                    final JsonFieldsLexer lexer = new JsonFieldsLexer(new ANTLRInputStream(fieldsExpression));
-                    lexer.removeErrorListeners();
+                    final JsonFieldsLexer lexer = lexer(expression);
+                    final JsonFieldsParser parser = parser(lexer);
 
-                    final ANTLRErrorListener listener = new BaseErrorListener() {
-                        @Override
-                        public void syntaxError(final Recognizer<?, ?> recognizer, final Object offendingSymbol,
-                                final int line, final int charPositionInLine, final String msg,
-                                final RecognitionException e) {
-                            throw new ParseCancellationException(e);
-                        }
-
-                    };
-                    lexer.addErrorListener(listener);
-
-                    final JsonFieldsParser parser = new JsonFieldsParser(new CommonTokenStream(lexer));
-                    parser.removeErrorListeners();
-
-                    parser.addErrorListener(listener);
-                    parser.setErrorHandler(new BailErrorStrategy());
-
-                    final ParseTreePattern parseTreePattern = parser.compileParseTreePattern(fieldsExpression, 0,
-                            lexer);
+                    final ParseTreePattern parseTreePattern = parser.compileParseTreePattern(expression, 0, lexer);
                 } catch (ParseCancellationException | RecognitionException | IllegalArgumentException e) {
                     mismatchDescription.appendValue(e);
                     return false;
@@ -129,6 +111,35 @@ public class JsonFieldsGrammarSyntaxTest {
             public void describeTo(final Description description) {
                 description.appendText("a valid field expression");
             }
+        };
+    }
+
+    private static JsonFieldsLexer lexer(final String fieldsExpression) {
+        return new JsonFieldsLexer(new ANTLRInputStream(fieldsExpression));
+    }
+
+    private static JsonFieldsParser parser(final JsonFieldsLexer lexer) {
+        lexer.removeErrorListeners();
+
+        final ANTLRErrorListener listener = antlrErrorListener();
+        lexer.addErrorListener(listener);
+
+        final JsonFieldsParser parser = new JsonFieldsParser(new CommonTokenStream(lexer));
+        parser.removeErrorListeners();
+
+        parser.addErrorListener(listener);
+        parser.setErrorHandler(new BailErrorStrategy());
+        return parser;
+    }
+
+    private static ANTLRErrorListener antlrErrorListener() {
+        return new BaseErrorListener() {
+            @Override
+            public void syntaxError(final Recognizer<?, ?> recognizer, final Object offendingSymbol, final int line,
+                    final int charPositionInLine, final String msg, final RecognitionException e) {
+                throw new ParseCancellationException(e);
+            }
+
         };
     }
 }
