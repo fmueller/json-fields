@@ -23,8 +23,7 @@ qualified_field:
     ;
 
 field:
-    LETTER+
-    (DASH? ( LETTER | DIGIT)+)*
+    (DASH | LETTER | DIGIT)+
     ;
 LETTER
     : ('a'..'z') | ('A'..'Z')

@@ -9,6 +9,7 @@
     <version>0.5.1-SNAPSHOT</version>
     <modules>
         <module>grammar</module>
+        <module>java</module>
     </modules>
     <properties>
         <antlr4.version>4.3</antlr4.version>

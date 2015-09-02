@@ -57,10 +57,10 @@ public class JsonFieldsGrammarSyntaxTest {
     public void dashesAndUnderscores() {
         assertThat("(foo-bar)", is(aValidFieldsExpression()));
         assertThat("(foo_bar)   ", is(aValidFieldsExpression()));
-        assertThat("(foo_)   ", is(not(aValidFieldsExpression())));
-        assertThat("(foo__bar)   ", is(not(aValidFieldsExpression())));
-        assertThat("(_foo)   ", is(not(aValidFieldsExpression())));
-        assertThat("(foo_-bar)   ", is(not(aValidFieldsExpression())));
+        assertThat("(foo_)   ", is(aValidFieldsExpression()));
+        assertThat("(foo__bar)   ", is(aValidFieldsExpression()));
+        assertThat("(_foo)   ", is(aValidFieldsExpression()));
+        assertThat("(foo_-bar)   ", is(aValidFieldsExpression()));
     }
 
     @Test
