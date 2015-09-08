@@ -110,12 +110,12 @@ public final class FieldPredicates {
         @Override
         public String toString() {
             final StringBuilder sb = new StringBuilder();
-            sb.append('(').append(first);
+            sb.append("( ").append(first);
             for (final FieldPredicate predicate : more) {
                 sb.append(" AND ").append(predicate);
             }
 
-            return sb.append(')').toString();
+            return sb.append(" )").toString();
         }
     }
 
@@ -164,12 +164,12 @@ public final class FieldPredicates {
         @Override
         public String toString() {
             final StringBuilder sb = new StringBuilder();
-            sb.append('(').append(first);
+            sb.append("( ").append(first);
             for (final FieldPredicate predicate : more) {
                 sb.append(" OR ").append(predicate);
             }
 
-            return sb.append(')').toString();
+            return sb.append(" )").toString();
         }
     }
 
