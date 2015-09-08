@@ -133,7 +133,7 @@ public final class FieldPredicates {
 
         @Override
         public String toString() {
-            return String.format("NOT( %s )", negatee);
+            return String.format("NOT ( %s )", negatee);
         }
     }
 
