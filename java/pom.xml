@@ -57,8 +57,7 @@
                         </goals>
                         <phase>generate-sources</phase>
                         <configuration>
-                            <outputDirectory>${antlr.output.dir}/org/zalando/guild/api/json/fields/java/parser
-                            </outputDirectory>
+                            <outputDirectory>${antlr.output.dir}/org/zalando/guild/api/json/fields/java/parser</outputDirectory>
                             <visitor>true</visitor>
                             <listener>true</listener>
                             <sourceDirectory>${antlr.grammar.dir}</sourceDirectory>
@@ -101,8 +100,7 @@
                             <minimizeJar>true</minimizeJar>
                             <createSourcesJar>true</createSourcesJar>
                             <shadeSourcesContent>true</shadeSourcesContent>
-                            <dependencyReducedPomLocation>${project.build.directory}/reduced-pom.xml
-                            </dependencyReducedPomLocation>
+                            <dependencyReducedPomLocation>${project.build.directory}/reduced-pom.xml</dependencyReducedPomLocation>
                             <artifactSet>
                                 <excludes>
                                     <exclude>com.google.code.findbugs:*</exclude>
@@ -144,8 +142,7 @@
                     <options>
                         <option>-target 7</option>
                         <option>-keep class org.zalando.guild.api.json.fields.java.expression.Main{*;}</option>
-                        <option>-keep class org.zalando.guild.api.json.fields.java.expression.ParserFramework{*;}
-                        </option>
+                        <option>-keep class org.zalando.guild.api.json.fields.java.expression.ParserFramework{*;}</option>
                         <option>-keep class org.zalando.guild.api.json.fields.java.model.FieldPredicates{*;}</option>
                         <option>-keep interface org.zalando.guild.api.json.fields.java.util.Function{*;}</option>
                         <option>-keep interface org.zalando.guild.api.json.fields.java.util.Supplier{*;}</option>
