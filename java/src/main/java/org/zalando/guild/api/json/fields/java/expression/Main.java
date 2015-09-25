@@ -17,7 +17,7 @@ import org.zalando.guild.api.json.fields.java.model.FieldPredicate;
  * @author  Sean Patrick Floyd (sean.floyd@zalando.de)
  * @since   07.09.2015
  */
-public class Main {
+public final class Main {
     public static void main(final String... args) {
         if (args.length < 2) {
             out.println("Usage: Main <expression> <field> [<field>+]");

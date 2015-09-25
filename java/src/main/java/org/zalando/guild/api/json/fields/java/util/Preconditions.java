@@ -4,6 +4,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
+ * Guava-style Preconditions.
+ *
  * @author  Sean Patrick Floyd (sean.floyd@zalando.de)
  * @since   12.08.2015
  */
@@ -28,7 +30,7 @@ public final class Preconditions {
 
     }
 
-    private static String formatMessage(final String message, final Object[] params) {
+    private static String formatMessage(final String message, final Object... params) {
 
         return params.length == 0 ? message : String.format(message, params);
 

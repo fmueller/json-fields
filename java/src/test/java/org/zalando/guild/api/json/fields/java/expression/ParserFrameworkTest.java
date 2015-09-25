@@ -63,6 +63,7 @@ public class ParserFrameworkTest {
     public void complexExpressions() {
         assertThat("(foo(bar(baz)))", matchesFields("foo"));
         assertThat("(foo(bar(baz)))", matchesFields("foo", "bar"));
+        assertThat("(foo(bar(baz)))", matchesFields("foo", "bar", "baz"));
         assertThat("(foo!(bar(baz)))", matchesFields("foo", "phleem", "baz"));
         assertThat("(foo!(bar(baz)))", matchesFields("foo", "phleem", "phooey"));
         assertThat("(foo!(bar(baz)))", not(matchesFields("foo", "bar")));

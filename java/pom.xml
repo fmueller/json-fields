@@ -5,12 +5,12 @@
     <parent>
         <artifactId>json-fields</artifactId>
         <groupId>org.zalando.guild.api</groupId>
-        <version>0.5.1-SNAPSHOT</version>
+        <version>0.5.2-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>json-fields-java</artifactId>
-    <version>0.5.1-SNAPSHOT</version>
+    <version>0.5.2-SNAPSHOT</version>
 
     <properties>
         <antlr.output.dir>${project.build.directory}/generated-sources/antlr</antlr.output.dir>
@@ -19,12 +19,12 @@
 
     
     <build>
-        
+
+         
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>2.10</version>
                 <executions>
                     <execution>
                         <id>unpack-grammar</id>
@@ -47,18 +47,8 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.3</version>
-                <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>org.antlr</groupId>
                 <artifactId>antlr4-maven-plugin</artifactId>
-                <version>4.3</version>
                 <executions>
                     <execution>
                         <id>antlr</id>
@@ -82,7 +72,6 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
-                <version>1.9.1</version>
                 <executions>
                     <execution>
                         <id>add-source</id>
@@ -101,7 +90,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>2.4.1</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -113,6 +101,11 @@
                             <createSourcesJar>true</createSourcesJar>
                             <shadeSourcesContent>true</shadeSourcesContent>
                             <dependencyReducedPomLocation>${project.build.directory}/reduced-pom.xml</dependencyReducedPomLocation>
+                            <artifactSet>
+                                <excludes>
+                                    <exclude>com.google.code.findbugs:*</exclude>
+                                </excludes>
+                            </artifactSet>
                             <relocations>
                                 <relocation>
                                     <pattern>org.antlr</pattern>
@@ -122,10 +115,6 @@
                                     <pattern>org.abego</pattern>
                                     <shadedPattern>org.zalando.shaded.abego</shadedPattern>
                                 </relocation>
-                                <relocation>
-                                    <pattern>javax.annotation</pattern>
-                                    <shadedPattern>org.zalando.shaded.jsr305</shadedPattern>
-                                </relocation>
                             </relocations>
                         </configuration>
                     </execution>
@@ -134,7 +123,6 @@
             <plugin>
                 <groupId>com.github.wvengen</groupId>
                 <artifactId>proguard-maven-plugin</artifactId>
-                <version>2.0.11</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -151,6 +139,10 @@
                     <options>
                         <option>-target 7</option>
                         <option>-keep class org.zalando.guild.api.json.fields.java.expression.Main{*;}</option>
+                        <option>-keep class org.zalando.guild.api.json.fields.java.expression.ParserFramework{*;}</option>
+                        <option>-keep class org.zalando.guild.api.json.fields.java.model.FieldPredicates{*;}</option>
+                        <option>-keep interface org.zalando.guild.api.json.fields.java.util.Function{*;}</option>
+                        <option>-keep interface org.zalando.guild.api.json.fields.java.util.Supplier{*;}</option>
                         <option>-dontwarn org.zalando.shaded.antlr.**</option>
                         <option>-keepattributes SourceFile,*Annotation*</option>
                         <option>-verbose</option>
@@ -163,7 +155,6 @@
             </plugin>
             <plugin>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>2.6</version>
                 <configuration>
                     <archive>
                         <manifest>
@@ -175,7 +166,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>2.4</version>
                 <executions>
                     <execution>
                         <id>attach-source</id>
@@ -189,7 +179,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-install-plugin</artifactId>
-                <version>2.5.2</version>
                 <configuration>
                     <generatePom>true</generatePom>
                 </configuration>
@@ -201,19 +190,14 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.antlr</groupId>
             <artifactId>antlr4-runtime</artifactId>
-            <version>${antlr4.version}</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
-            <version>3.0.0</version>
-            <optional>true</optional>
         </dependency>
     </dependencies>
     <contributors>

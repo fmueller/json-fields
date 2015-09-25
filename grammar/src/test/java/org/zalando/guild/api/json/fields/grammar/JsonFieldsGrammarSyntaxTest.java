@@ -6,15 +6,18 @@ import static org.hamcrest.core.IsNot.not;
 
 import static org.junit.Assert.assertThat;
 
+import java.util.BitSet;
+
 import org.antlr.v4.runtime.ANTLRErrorListener;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.BailErrorStrategy;
-import org.antlr.v4.runtime.BaseErrorListener;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
+import org.antlr.v4.runtime.atn.ATNConfigSet;
+import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.misc.ParseCancellationException;
-import org.antlr.v4.runtime.tree.pattern.ParseTreePattern;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -26,6 +29,8 @@ import org.zalando.guild.api.json.fields.grammar.parser.JsonFieldsLexer;
 import org.zalando.guild.api.json.fields.grammar.parser.JsonFieldsParser;
 
 /**
+ * This test validates legality of expressions acccording to the grammar, without actually evaluating them.
+ *
  * @author  Sean Patrick Floyd (sean.floyd@zalando.de)
  * @since   26.08.2015
  */
@@ -98,7 +103,7 @@ public class JsonFieldsGrammarSyntaxTest {
                     final JsonFieldsLexer lexer = lexer(expression);
                     final JsonFieldsParser parser = parser(lexer);
 
-                    final ParseTreePattern parseTreePattern = parser.compileParseTreePattern(expression, 0, lexer);
+                    parser.compileParseTreePattern(expression, 0, lexer);
                 } catch (ParseCancellationException | RecognitionException | IllegalArgumentException e) {
                     mismatchDescription.appendValue(e);
                     return false;
@@ -133,13 +138,24 @@ public class JsonFieldsGrammarSyntaxTest {
     }
 
     private static ANTLRErrorListener antlrErrorListener() {
-        return new BaseErrorListener() {
+        return new ANTLRErrorListener() {
             @Override
             public void syntaxError(final Recognizer<?, ?> recognizer, final Object offendingSymbol, final int line,
                     final int charPositionInLine, final String msg, final RecognitionException e) {
                 throw new ParseCancellationException(e);
             }
 
+            @Override
+            public void reportAmbiguity(final Parser recognizer, final DFA dfa, final int startIndex,
+                    final int stopIndex, final boolean exact, final BitSet ambigAlts, final ATNConfigSet configs) { }
+
+            @Override
+            public void reportAttemptingFullContext(final Parser recognizer, final DFA dfa, final int startIndex,
+                    final int stopIndex, final BitSet conflictingAlts, final ATNConfigSet configs) { }
+
+            @Override
+            public void reportContextSensitivity(final Parser recognizer, final DFA dfa, final int startIndex,
+                    final int stopIndex, final int prediction, final ATNConfigSet configs) { }
         };
     }
 }

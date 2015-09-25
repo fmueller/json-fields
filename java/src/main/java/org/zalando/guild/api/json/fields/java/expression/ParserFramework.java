@@ -23,7 +23,7 @@ import org.zalando.guild.api.json.fields.java.parser.JsonFieldsParser;
  * @author  Sean Patrick Floyd (sean.floyd@zalando.de)
  * @since   07.09.2015
  */
-public class ParserFramework {
+public final class ParserFramework {
 
     /**
      * Returns a FieldPredicate consistent with the semantics of the supplied Json Fields expression. If the expression

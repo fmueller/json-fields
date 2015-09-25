@@ -13,3 +13,5 @@ class.
 
 There is also the [`Main`](src/main/java/org/zalando/guild/api/json/fields/java/expression/Main.java)
 class, an entry point for testing and evaluating field expressions on the command line.
+
+This artifact is packaged as a jar-with-dependencies, shading ANTLR4.

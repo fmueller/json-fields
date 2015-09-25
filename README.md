@@ -17,3 +17,4 @@ You can find the grammar at [grammar/src/main/antlr4/JsonFields.g4](grammar/src/
 
 Also check out this Unit Test Class for valid field expressions according to this grammar:
 [JsonFieldsGrammarSyntaxTest.java](grammar/src/test/java/org/zalando/guild/api/json/fields/grammar/JsonFieldsGrammarSyntaxTest.java)
+

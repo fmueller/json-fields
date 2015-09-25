@@ -16,6 +16,8 @@ import org.antlr.v4.tool.ANTLRToolListener;
 import org.junit.Test;
 
 /**
+ * This test only makes sure the grammar compiles.
+ *
  * @author  Sean Patrick Floyd (sean.floyd@zalando.de)
  * @since   26.08.2015
  */
@@ -36,8 +38,10 @@ public class JsonFieldsGrammarTest {
         final Tool antlr = new Tool(args);
 
         antlr.addListener(new ANTLRToolListener() {
+                @Override
                 public void info(final String msg) { }
 
+                @Override
                 public void error(final ANTLRMessage msg) {
                     fail(format(msg));
                 }
@@ -47,6 +51,7 @@ public class JsonFieldsGrammarTest {
                             msg.getErrorType(), Arrays.asList(msg.getArgs()), msg.fileName, msg.line, msg.charPosition);
                 }
 
+                @Override
                 public void warning(final ANTLRMessage msg) {
                     fail(format(msg));
                 }
