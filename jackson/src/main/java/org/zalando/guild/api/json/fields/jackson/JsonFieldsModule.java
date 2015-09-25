@@ -1,16 +1,17 @@
 package org.zalando.guild.api.json.fields.jackson;
 
-import static org.zalando.guild.api.json.fields.java.util.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import javax.annotation.Nonnull;
 
 import org.zalando.guild.api.json.fields.jackson.generated.PackageVersion;
 import org.zalando.guild.api.json.fields.java.model.FieldPredicate;
-import org.zalando.guild.api.json.fields.java.util.Supplier;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
+
+import com.google.common.base.Supplier;
 
 /**
  * Module that will enable field-based filtering.

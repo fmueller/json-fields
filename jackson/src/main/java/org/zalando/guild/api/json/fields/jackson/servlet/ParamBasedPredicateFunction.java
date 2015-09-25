@@ -1,7 +1,8 @@
 package org.zalando.guild.api.json.fields.jackson.servlet;
 
 import static org.zalando.guild.api.json.fields.java.expression.ParserFramework.parseFieldsExpressionOrFail;
-import static org.zalando.guild.api.json.fields.java.util.Preconditions.checkNotNull;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import javax.annotation.Nonnull;
 
@@ -9,7 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.zalando.guild.api.json.fields.java.model.FieldPredicate;
 import org.zalando.guild.api.json.fields.java.model.FieldPredicates;
-import org.zalando.guild.api.json.fields.java.util.Function;
+
+import com.google.common.base.Function;
 
 /**
  * A Predicate Function that parses a FieldPredicate from a request parameter.

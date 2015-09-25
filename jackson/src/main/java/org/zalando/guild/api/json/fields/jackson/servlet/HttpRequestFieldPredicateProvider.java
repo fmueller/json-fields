@@ -1,14 +1,15 @@
 package org.zalando.guild.api.json.fields.jackson.servlet;
 
-import static org.zalando.guild.api.json.fields.java.util.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import javax.annotation.Nonnull;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.zalando.guild.api.json.fields.java.model.FieldPredicate;
-import org.zalando.guild.api.json.fields.java.util.Function;
-import org.zalando.guild.api.json.fields.java.util.Supplier;
+
+import com.google.common.base.Function;
+import com.google.common.base.Supplier;
 
 /**
  * FieldPredicate supplier that gets the predicate from a HttpServletRequest supplier and a Transformer function.

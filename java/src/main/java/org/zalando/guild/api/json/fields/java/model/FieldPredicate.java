@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import com.google.common.base.Predicate;
+
 /**
  * The core abstraction for matching a hierarchy of fields. Based on this, a hierarchy of fields can be tested against a
  * fields expression.
@@ -11,7 +13,7 @@ import javax.annotation.Nonnull;
  * @author  Sean Patrick Floyd (sean.floyd@zalando.de)
  * @since   20.08.2015
  */
-public interface FieldPredicate {
+public interface FieldPredicate extends Predicate<List<String>> {
 
     /**
      * <p>Return true if the supplied field hierarchy should be rendered. A list of strings represents a hierarchy of
@@ -25,5 +27,5 @@ public interface FieldPredicate {
      * @exception  NullPointerException      if the supplied list is {@code null} or contains {@code null} values
      * @exception  IllegalArgumentException  if the supplied list is empty
      */
-    boolean matches(@Nonnull List<String> fieldHierarchy);
+    boolean apply(@Nonnull List<String> fieldHierarchy);
 }
