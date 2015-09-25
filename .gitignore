@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 !.gitignore
 .*
 target
@@ -10,13 +9,10 @@ target
 */target
 */*.iml
 */*.iws
-=======
-target/
+
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
 pom.xml.next
 release.properties
 dependency-reduced-pom.xml
-buildNumber.properties
->>>>>>> d398985350ab2a67d1bc1c65268d54af9d9ba334
