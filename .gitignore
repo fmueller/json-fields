@@ -1,6 +1,8 @@
 !.gitignore
 !.travis.yml
 
+.idea
+
 target
 *.iml
 *.iws
