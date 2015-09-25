@@ -2,7 +2,7 @@ package org.zalando.guild.api.json.fields.jackson;
 
 import static java.lang.reflect.Proxy.newProxyInstance;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import static org.hamcrest.CoreMatchers.nullValue;
 
@@ -152,7 +152,7 @@ public class JsonFieldsModuleTest {
         }
 
         executorService.shutdown();
-        executorService.awaitTermination(5, SECONDS);
+        executorService.awaitTermination(Long.MAX_VALUE, NANOSECONDS);
         assertThat(runs.get(), is(totalRuns));
 
     }
