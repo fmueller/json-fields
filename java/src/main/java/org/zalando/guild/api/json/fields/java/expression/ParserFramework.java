@@ -1,6 +1,6 @@
 package org.zalando.guild.api.json.fields.java.expression;
 
-import static org.zalando.guild.api.json.fields.java.util.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import javax.annotation.Nonnull;
 

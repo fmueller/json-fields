@@ -44,11 +44,144 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>release</id>
+            <!-- generates the shaded versions -->
+            <properties>
+                <shaded.artifactId>${project.artifactId}-nodeps</shaded.artifactId>
+                <shaded.jar.name>${shaded.artifactId}.${project.packaging}</shaded.jar.name>
+                <shaded.jar.file>${project.build.directory}/${shaded.jar.name}</shaded.jar.file>
+                <shaded.jar.optimized>${shaded.artifactId}-optimized.${project.packaging}</shaded.jar.optimized>
+                <shaded.jar.optimized.file>${project.build.directory}/${shaded.jar.optimized}</shaded.jar.optimized.file>
+                <shaded.pom.file>${project.build.outputDirectory}/pom-nodeps.xml</shaded.pom.file>
+            </properties>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/pom</directory>
+                        <filtering>true</filtering>
+                    </resource>
+                </resources>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-shade-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>shade</goal>
+                                </goals>
+                                <configuration>
+                                    <minimizeJar>true</minimizeJar>
+                                    <createSourcesJar>true</createSourcesJar>
+                                    <shadeSourcesContent>true</shadeSourcesContent>
+                                    <relocations>
+                                        <relocation>
+                                            <pattern>javax.annotations</pattern>
+                                            <shadedPattern>org.zalando.shaded.jsr305</shadedPattern>
+                                        </relocation>
+                                        <relocation>
+                                            <pattern>com.google.common</pattern>
+                                            <shadedPattern>org.zalando.shaded.guava</shadedPattern>
+                                        </relocation>
+                                        <relocation>
+                                            <pattern>org.antlr</pattern>
+                                            <shadedPattern>org.zalando.shaded.antlr</shadedPattern>
+                                        </relocation>
+                                        <relocation>
+                                            <pattern>org.abego</pattern>
+                                            <shadedPattern>org.zalando.shaded.abego</shadedPattern>
+                                        </relocation>
+                                    </relocations>
+                                    <outputFile>${shaded.jar.file}</outputFile>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>com.github.wvengen</groupId>
+                        <artifactId>proguard-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>proguard</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <includeDependency>true</includeDependency>
+                            <injar>${shaded.jar.name}</injar>
+                            <outjar>${shaded.jar.optimized}</outjar>
+                            <addMavenDescriptor>false</addMavenDescriptor>
+                            <attach>false</attach>
+                            <appendClassifier>false</appendClassifier>
+                            <obfuscate>false</obfuscate>
+                            <inFilter>!**.java,!META-INF/services/**,!javax/annotation/**,!pom-nodeps.xml</inFilter>
+                            <options>
+                                <option>-target 7</option>
+                                <option>-keep class org.zalando.guild.api.json.fields.java.expression.Main{*;}</option>
+                                <option>-keep class org.zalando.guild.api.json.fields.java.expression.ParserFramework{*;}</option>
+                                <option>-keep class org.zalando.guild.api.json.fields.java.model.FieldPredicates{*;}</option>
+                                <option>-keep interface org.zalando.guild.api.json.fields.java.model.FieldPredicate{*;}</option>
+                                <option>-dontwarn org.zalando.shaded.antlr.**</option>
+                                <option>-keepattributes SourceFile</option>
+                                <option>-verbose</option>
+                                <option>-dontoptimize</option>
+                            </options>
+                            <libs>
+                                <lib>${java.home}/lib/rt.jar</lib>
+                            </libs>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-install-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>install-shaded-jar</id>
+                                <goals>
+                                    <goal>install-file</goal>
+                                </goals>
+                                <phase>install</phase>
+                                <configuration>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>${shaded.artifactId}</artifactId>
+                                    <version>${project.version}</version>
+                                    <pomFile>${shaded.pom.file}</pomFile>
+                                    <packaging>jar</packaging>
+                                    <file>${shaded.jar.optimized.file}</file>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-deploy-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>deploy-shaded-jar</id>
+                                <goals>
+                                    <goal>deploy-file</goal>
+                                </goals>
+                                <phase>deploy</phase>
+                                <configuration>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>${shaded.artifactId}</artifactId>
+                                    <version>${project.version}</version>
+                                    <pomFile>${shaded.pom.file}</pomFile>
+                                    <packaging>jar</packaging>
+                                    <file>${shaded.jar.optimized.file}</file>
+                                    <url>${project.distributionManagement.repository.url}</url>
+                                    <repositoryId>${project.distributionManagement.repository.id}</repositoryId>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
     <build>
-
-
-
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -87,7 +220,7 @@
                         <configuration>
                             <outputDirectory>${antlr.output.dir}/org/zalando/guild/api/json/fields/java/parser</outputDirectory>
                             <visitor>true</visitor>
-                            <listener>true</listener>
+                            <listener>false</listener>
                             <sourceDirectory>${antlr.grammar.dir}</sourceDirectory>
                             <arguments>
                                 <argument>-package</argument>
@@ -115,72 +248,7 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <minimizeJar>true</minimizeJar>
-                            <createSourcesJar>true</createSourcesJar>
-                            <shadeSourcesContent>true</shadeSourcesContent>
-                            <dependencyReducedPomLocation>${project.build.directory}/reduced-pom.xml</dependencyReducedPomLocation>
-                            <artifactSet>
-                                <excludes>
-                                    <exclude>com.google.code.findbugs:*</exclude>
-                                </excludes>
-                            </artifactSet>
-                            <relocations>
-                                <relocation>
-                                    <pattern>org.antlr</pattern>
-                                    <shadedPattern>org.zalando.shaded.antlr</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>org.abego</pattern>
-                                    <shadedPattern>org.zalando.shaded.abego</shadedPattern>
-                                </relocation>
-                            </relocations>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>com.github.wvengen</groupId>
-                <artifactId>proguard-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals><goal>proguard</goal></goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <includeDependency>true</includeDependency>
-                    <addMavenDescriptor>false</addMavenDescriptor>
-                    <attach>true</attach>
-                    <appendClassifier>false</appendClassifier>
-                    <obfuscate>false</obfuscate>
-                    <inFilter>!**.java,!META-INF/services/**</inFilter>
-                    <options>
-                        <option>-target 7</option>
-                        <option>-keep class org.zalando.guild.api.json.fields.java.expression.Main{*;}</option>
-                        <option>-keep class org.zalando.guild.api.json.fields.java.expression.ParserFramework{*;}</option>
-                        <option>-keep class org.zalando.guild.api.json.fields.java.model.FieldPredicates{*;}</option>
-                        <option>-keep interface org.zalando.guild.api.json.fields.java.util.Function{*;}</option>
-                        <option>-keep interface org.zalando.guild.api.json.fields.java.util.Supplier{*;}</option>
-                        <option>-dontwarn org.zalando.shaded.antlr.**</option>
-                        <option>-keepattributes SourceFile,*Annotation*</option>
-                        <option>-verbose</option>
-                        <option>-dontoptimize</option>
-                    </options>
-                    <libs>
-                        <lib>${java.home}/lib/rt.jar</lib>
-                    </libs>
-                </configuration>
-            </plugin>
+
             <plugin>
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
@@ -215,18 +283,29 @@
     </build>
 
     <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-        </dependency>
+        <!-- real dependency -->
         <dependency>
             <groupId>org.antlr</groupId>
             <artifactId>antlr4-runtime</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+
+
+        <!-- test dependency -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+
+        <!-- optional dependency -->
+        <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
         </dependency>
+
     </dependencies>
     <contributors>
         <contributor>

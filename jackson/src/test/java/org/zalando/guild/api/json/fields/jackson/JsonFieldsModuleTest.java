@@ -30,12 +30,13 @@ import org.junit.Test;
 
 import org.zalando.guild.api.json.fields.java.model.FieldPredicate;
 import org.zalando.guild.api.json.fields.java.model.FieldPredicates;
-import org.zalando.guild.api.json.fields.java.util.Supplier;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import com.google.common.base.Supplier;
 
 import com.jayway.jsonassert.JsonAssert;
 import com.jayway.jsonassert.JsonAsserter;

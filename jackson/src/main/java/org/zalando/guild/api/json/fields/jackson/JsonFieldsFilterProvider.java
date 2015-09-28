@@ -1,6 +1,6 @@
 package org.zalando.guild.api.json.fields.jackson;
 
-import static org.zalando.guild.api.json.fields.java.util.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,6 @@ import java.util.List;
 import javax.annotation.Nonnull;
 
 import org.zalando.guild.api.json.fields.java.model.FieldPredicate;
-import org.zalando.guild.api.json.fields.java.util.Supplier;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -20,6 +19,8 @@ import com.fasterxml.jackson.databind.ser.PropertyFilter;
 import com.fasterxml.jackson.databind.ser.PropertyWriter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+
+import com.google.common.base.Supplier;
 
 /**
  * A FilterProvider that always returns a filter, backed by a supplier of FieldPredicate.
@@ -93,7 +94,7 @@ public final class JsonFieldsFilterProvider extends SimpleFilterProvider {
 
             final String name = writer.getName();
             final FieldPredicate fieldPredicate = predicateSupplier.get();
-            if (fieldPredicate.matches(qualifiedPath(name))) {
+            if (fieldPredicate.apply(qualifiedPath(name))) {
                 contextProvider.pushContext(name);
                 delegate.serializeAsField(pojo, jgen, prov, writer);
                 contextProvider.popContext();

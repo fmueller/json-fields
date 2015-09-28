@@ -1,6 +1,6 @@
 package org.zalando.guild.api.json.fields.java.model;
 
-import static org.zalando.guild.api.json.fields.java.util.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.Arrays;
 import java.util.List;
@@ -93,13 +93,13 @@ public final class FieldPredicates {
         }
 
         @Override
-        public boolean matches(@Nonnull final List<String> tokens) {
-            if (!first.matches(tokens)) {
+        public boolean apply(@Nonnull final List<String> tokens) {
+            if (!first.apply(tokens)) {
                 return false;
             }
 
             for (final FieldPredicate predicate : more) {
-                if (!predicate.matches(tokens)) {
+                if (!predicate.apply(tokens)) {
                     return false;
                 }
             }
@@ -127,8 +127,8 @@ public final class FieldPredicates {
         }
 
         @Override
-        public boolean matches(@Nonnull final List<String> tokens) {
-            return !negatee.matches(tokens);
+        public boolean apply(@Nonnull final List<String> tokens) {
+            return !negatee.apply(tokens);
         }
 
         @Override
@@ -147,13 +147,13 @@ public final class FieldPredicates {
         }
 
         @Override
-        public boolean matches(@Nonnull final List<String> tokens) {
-            if (first.matches(tokens)) {
+        public boolean apply(@Nonnull final List<String> tokens) {
+            if (first.apply(tokens)) {
                 return true;
             }
 
             for (final FieldPredicate predicate : more) {
-                if (predicate.matches(tokens)) {
+                if (predicate.apply(tokens)) {
                     return true;
                 }
             }
@@ -175,7 +175,7 @@ public final class FieldPredicates {
 
     private static class AlwaysFalsePredicate implements FieldPredicate {
         @Override
-        public boolean matches(@Nonnull final List<String> tokens) {
+        public boolean apply(@Nonnull final List<String> tokens) {
             return false;
         }
 
@@ -187,7 +187,7 @@ public final class FieldPredicates {
 
     private static class AlwaysTruePredicate implements FieldPredicate {
         @Override
-        public boolean matches(@Nonnull final List<String> tokens) {
+        public boolean apply(@Nonnull final List<String> tokens) {
             return true;
         }
 
@@ -207,7 +207,7 @@ public final class FieldPredicates {
         }
 
         @Override
-        public boolean matches(@Nonnull final List<String> tokens) {
+        public boolean apply(@Nonnull final List<String> tokens) {
             return tokens.size() <= index || tokens.get(index).equals(token);
         }
 

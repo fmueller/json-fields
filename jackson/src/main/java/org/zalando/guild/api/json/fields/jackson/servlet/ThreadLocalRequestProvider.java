@@ -1,12 +1,12 @@
 package org.zalando.guild.api.json.fields.jackson.servlet;
 
-import static org.zalando.guild.api.json.fields.java.util.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import javax.annotation.Nonnull;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.zalando.guild.api.json.fields.java.util.Supplier;
+import com.google.common.base.Supplier;
 
 /**
  * Request Provider that uses ThreadLocals. This obviously won't work in an asynchronous environment.
