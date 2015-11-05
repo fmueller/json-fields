@@ -16,6 +16,7 @@
         <antlr4.version>4.3</antlr4.version>
         <guava.version>18.0</guava.version>
         <jsr305.version>3.0.0</jsr305.version>
+        <gpg.sign.skip>false</gpg.sign.skip>
     </properties>
     <packaging>pom</packaging>
 
@@ -54,11 +55,20 @@
                                 <goals>
                                     <goal>sign</goal>
                                 </goals>
+                                <configuration>
+                                    <skip>${gpg.sign.skip}</skip>
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>
                 </plugins>
             </build>
+        </profile>
+        <profile>
+            <id>cd</id>
+            <properties>
+                <gpg.sign.skip>true</gpg.sign.skip>
+            </properties>
         </profile>
     </profiles>
     <dependencyManagement>
