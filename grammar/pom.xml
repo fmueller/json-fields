@@ -21,7 +21,6 @@
             </resource>
         </resources>
         <plugins>
-
             <plugin>
                 <groupId>org.antlr</groupId>
                 <artifactId>antlr4-maven-plugin</artifactId>
@@ -47,7 +46,6 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
-                <version>1.9.1</version>
                 <executions>
                     <execution>
                         <id>add-source</id>
@@ -62,6 +60,28 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.gmaven</groupId>
+                <artifactId>groovy-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>process-test-sources</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <!-- remove antlr dir from compile sources -->
+                            <source>project.compileSourceRoots.remove(project.compileSourceRoots.size()-1)</source>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <excludePackageNames>org.zalando.*</excludePackageNames>
+                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -80,13 +100,4 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    <contributors>
-        <contributor>
-            <name>Sean Patrick Floyd</name>
-            <email>sean.floyd@zalando.de</email>
-            <organization>Zalando SE - API Guild</organization>
-        </contributor>
-    </contributors>
-
-
 </project>
