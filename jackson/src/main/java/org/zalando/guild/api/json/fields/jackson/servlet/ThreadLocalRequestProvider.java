@@ -26,8 +26,7 @@ public final class ThreadLocalRequestProvider implements Supplier<HttpServletReq
 
     /**
      * Assign the HttpServletRequest to the ThreadLocal. This will usually be called from a Filter or Interceptor. Don't
-     * forget to call {@link #removeRequest(HttpServletRequest)} at the end of the request, or you'll have a memory
-     * leak.
+     * forget to call {@link #removeRequest()} at the end of the request, or you'll have a memory leak.
      */
     public static void assignRequest(@Nonnull final HttpServletRequest request) {
 
