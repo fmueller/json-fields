@@ -1,0 +1,5 @@
+minimum: 1
+ignore: pr_opener
+
+X-Zalando-Team: "architecture"
+X-Zalando-Type: code
