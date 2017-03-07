@@ -1,5 +1,4 @@
-minimum: 1
-ignore: pr_opener
+minimum: 2
 
 X-Zalando-Team: "architecture"
 X-Zalando-Type: code
