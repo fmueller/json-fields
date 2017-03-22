@@ -98,8 +98,7 @@ public final class JsonFieldsFilterProvider extends SimpleFilterProvider {
                 contextProvider.pushContext(name);
                 try {
                     delegate.serializeAsField(pojo, jgen, prov, writer);
-                }
-                finally {
+                } finally {
                     contextProvider.popContext();
                 }
             }
