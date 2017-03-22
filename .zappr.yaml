@@ -1,4 +1,13 @@
-minimum: 2
 
-X-Zalando-Team: "architecture"
-X-Zalando-Type: code
+# this is how you configure zappr
+# a more exhaustive description is at
+# https://zappr.readthedocs.io/en/latest/setup
+
+approvals:
+  pattern: "(:\\+1:|👍|:ship:|:shipit:|:rocket:|LGTM)"
+  minimum: 1
+
+  ignore: pr_opener
+
+  from:
+    collaborators: true
