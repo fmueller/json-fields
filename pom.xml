@@ -4,7 +4,7 @@
 
     <groupId>org.zalando.guild.api</groupId>
     <artifactId>json-fields</artifactId>
-    <version>0.5.3-SNAPSHOT</version>
+    <version>0.5.3</version>
     <modules>
         <module>grammar</module>
         <module>java</module>
@@ -248,7 +248,7 @@
         <url>https://github.com/zalando/json-fields</url>
         <connection>scm:git:git://github.com/zalando/json-fields.git</connection>
         <developerConnection>scm:git:git@github.com:zalando/json-fields.git</developerConnection>
-      <tag>HEAD</tag>
+      <tag>json-fields-0.5.3</tag>
   </scm>
     <contributors>
         <contributor>
